@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
@@ -47,7 +48,6 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 
-
 app.use((req , res , next) => {
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
@@ -66,7 +66,6 @@ main().then(() => {                             //calling main function to conne
 }).catch((err) => {
     console.error('Error connecting to MongoDB:', err);
 });
-
 
 
 app.use("/listings" , listingsRouter); 

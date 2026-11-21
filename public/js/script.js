@@ -12,7 +12,7 @@
       })
     })()
 
-    // for flash msg case of success
+// for flash msg case of success
   document.addEventListener("DOMContentLoaded", () => {
   const toastElement = document.getElementById('flashToast');
   if (toastElement) {
@@ -24,8 +24,6 @@
     toast.show();
   }
 });
-
-
 // for flash msg case of success
 
 document.addEventListener("DOMContentLoaded", () => {

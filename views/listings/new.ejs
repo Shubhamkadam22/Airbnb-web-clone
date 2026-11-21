@@ -11,7 +11,7 @@
                 <p class="text-muted small">Fill in the details below to publish your unique space on Wanderlust.</p>
             </div>
 
-            <form action="/listings" method="POST" novalidate class="needs-validation">
+            <form action="/listings" method="POST" novalidate class="needs-validation" enctype="multipart/form-data">
 
                 <!-- Title -->
                 <div class="mb-3">
@@ -27,10 +27,10 @@
                      <div class="invalid-feedback">Please enter a short description.</div>
                 </div>
          
-                <!-- Image Link -->
+        <!-- Image Link -->
                 <div class="mb-3">
-                    <label for="link" class="form-label fw-semibold text-secondary small">Image URL</label>
-                    <input name="listing[image][url]" type="text" id="link" placeholder="https://example.com/image.jpg" class="form-control rounded-3 py-2">
+                    <label for="link" class="form-label fw-semibold text-secondary small">Upload Image </label>
+                    <input name="listing[image]" type="file" id="link" placeholder="https://example.com/image.jpg" class="form-control rounded-3 py-2">
                     <div class="form-text text-muted small">Leave blank to use the default platform image.</div>
                 </div>
 

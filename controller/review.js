@@ -1,7 +1,8 @@
-const Listing = require("../models/review");
+const Listing = require("../models/listing");
+const Review = require("../models/review");
+const {listingSchema , reviewSchema} = require("../schema.js"); 
 
-
-module.exports.reviewShow = async (req, res) => {
+module.exports.createReview  =  async (req, res) => {
   let listing = await Listing.findById(req.params.id); 
   let newReview = new Review(req.body.review); 
   newReview.author = req.user._id; 
@@ -12,3 +13,10 @@ module.exports.reviewShow = async (req, res) => {
   res.redirect(`/listings/${req.params.id}`); 
 };
 
+module.exports.deleteReview = async (req, res) => {
+    let { id, reviewId } = req.params;
+    await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+    await Review.findByIdAndDelete(reviewId);
+    req.flash("success", "Review deleted successfully");
+    res.redirect(`/listings/${id}`);
+}

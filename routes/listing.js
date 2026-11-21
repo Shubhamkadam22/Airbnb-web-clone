@@ -1,49 +1,42 @@
-const express = require('express');
-const router = express();
-const wrapAsync = require('../utils/wrapAsync'); // Correct for CommonJS // Import the wrapAsync utility
-const {listingSchema , reviewSchema} = require("../schema.js"); 
-const ExpressError = require('../utils/expressError.js'); // Import the ExpressError class
-const Listing = require('../models/listing'); // Import the Listing model
-const {isLoggedIn } = require("../middleware.js");
-const controllerListing = require("../controller/listing.js")
-const {validateListing} = require("../middleware.js")
+const express = require("express");
+const router = express.Router();
+const wrapAsync = require("../utils/wrapAsync");
+const { isLoggedIn, validateListing } = require("../middleware.js");
+const controllerListing = require("../controller/listing.js");
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
+// Index & Create Listing
+router
+  .route("/")
+  .get(wrapAsync(controllerListing.indexListing))
+  .post ( upload.single('listing[image]'),(req , res) => {
+   res.send(req.file);
+})
+ /*  .post(
+    isLoggedIn,
+    validateListing,
+    wrapAsync(controllerListing.editnewListing) // check if your controller exports this as createListing
+  ); */
 
+// New Listing Form
+router.get("/new", isLoggedIn, wrapAsync(controllerListing.new));
 
+// Show, Update & Delete Listing
+router
+  .route("/:id")
+  .get(wrapAsync(controllerListing.showListing))
+  .put(
+    isLoggedIn,
+    validateListing,
+    wrapAsync(controllerListing.updateListing)
+  )
+  .delete(isLoggedIn, wrapAsync(controllerListing.deleteListing));
 
-//index route 
-router.get("/" , wrapAsync( controllerListing.indexListing));
-
-
-// New Route 
-router.get("/new", 
-  isLoggedIn, 
-wrapAsync(controllerListing.new)
-);
-
-
-//show route 
-router.get("/:id", wrapAsync( controllerListing.showListing));
-
-
-// create a new listing
-router.post("/" ,
+// Edit Listing Form
+router.get(
+  "/:id/edit",
   isLoggedIn,
-  validateListing, 
-   wrapAsync( controllerListing.editnewListing)
+  wrapAsync(controllerListing.editListing)
 );
 
-//edit route 
-router.get("/:id/edit" , isLoggedIn, 
-  wrapAsync(controllerListing.editListing));
-
-
-//update route
-router.put("/:id" ,validateListing,  isLoggedIn, 
-  wrapAsync( controllerListing.updateListing ));
-
-//delete route
-router.delete("/:id" , isLoggedIn,   wrapAsync( controllerListing.deleteListing));
-
-
-
-module.exports = router; 
+module.exports = router;
