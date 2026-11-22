@@ -19,11 +19,13 @@
                     <input name="listing[title]" type="text" id="title" value="<%= listing.title %>" class="form-control rounded-3 py-2" required>
                     <div class="invalid-feedback">Please enter a valid title.</div>
                 </div>
-
+                <div class="mb-3">
+                    <image src="<%= listing.image && listing.image.url ? listing.image.url : '' %>" alt="Listing Image" class="img-fluid rounded-3 mb-2" style="max-height: 200px;">
+                </div>
                 <!-- Image URL -->
                 <div class="mb-3">
                     <label for="link" class="form-label fw-semibold text-secondary small">Image URL</label>
-                    <input name="listing[image][url]" type="text" id="link" placeholder="https://example.com/image.jpg" value="<%= listing.image && listing.image.url ? listing.image.url : '' %>" class="form-control rounded-3 py-2">
+                    <input name="listing[image][url]" type="file" id="link" placeholder="https://example.com/image.jpg" value="<%= listing.image && listing.image.url ? listing.image.url : '' %>" class="form-control rounded-3 py-2">
                     <div class="form-text text-muted small">Provide a direct link to a crisp photo of your space.</div>
                 </div>
                 
