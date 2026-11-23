@@ -35,9 +35,7 @@ cookie:{
 }
 }
 
-app.get('/', (req, res) => {          // Define a route for the root URL
-  res.send('Hello World');
-}); 
+ 
 
 app.use(session(sessionOptions));
 app.use(flash());
