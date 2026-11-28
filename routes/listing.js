@@ -3,9 +3,9 @@ const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync");
 const { isLoggedIn, validateListing } = require("../middleware.js");
 const controllerListing = require("../controller/listing.js");
-const multer  = require('multer')
+const multer = require("multer");
 const { storage } = require("../cloudConfig.js");
-const upload = multer({ storage: storage })
+const upload = multer({ storage });
 
 // Index & Create Listing
 router
@@ -13,11 +13,10 @@ router
   .get(wrapAsync(controllerListing.indexListing))
   .post(
     isLoggedIn,
-    upload.single('listing[image]'),
+    upload.single("listing[image]"),
     validateListing,
-    wrapAsync(controllerListing.editnewListing) // check if your controller exports this as createListing
+    wrapAsync(controllerListing.createListing) // Change to editnewListing only if your controller exports that exact name
   );
-  
 
 // New Listing Form
 router.get("/new", isLoggedIn, wrapAsync(controllerListing.new));
@@ -28,6 +27,7 @@ router
   .get(wrapAsync(controllerListing.showListing))
   .put(
     isLoggedIn,
+    upload.single("listing[image]"),
     validateListing,
     wrapAsync(controllerListing.updateListing)
   )
